@@ -1,5 +1,7 @@
 package ru.netology.graphics;
 
+import ru.netology.graphics.image.ColorConverter;
+import ru.netology.graphics.image.ImageToTextConv;
 import ru.netology.graphics.image.TextGraphicsConverter;
 import ru.netology.graphics.server.GServer;
 
@@ -8,7 +10,8 @@ import java.io.PrintWriter;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        TextGraphicsConverter converter = null; // Создайте тут объект вашего класса конвертера
+
+        TextGraphicsConverter converter = new ImageToTextConv(); // Создайте тут объект вашего класса конвертера
 
         GServer server = new GServer(converter); // Создаём объект сервера
         server.start(); // Запускаем
