@@ -13,13 +13,12 @@ import java.util.Arrays;
 public class ImageToTextConv implements TextGraphicsConverter {
     private int maxWidth = 0;
     private int maxHeight = 0;
-    private char[] oneString;
     private double maxRatio;
     private double ratio;
+    private TextColorSchema schema = new ColorConverter();
 
     @Override
     public String convert(String url) throws IOException, BadImageSizeException {
-        String imageFinal = "";
         int newWidth;
         int newHeight;
         BufferedImage img = ImageIO.read(new URL(url));
@@ -58,21 +57,16 @@ public class ImageToTextConv implements TextGraphicsConverter {
         // test
         //ImageIO.write(bwImg, "png", new File("Outbw.png"));
         WritableRaster bwRaster = bwImg.getRaster();
-        ColorConverter schema = new ColorConverter();
-        oneString = new char[bwRaster.getWidth()];
-        String doubleString = "";
+        StringBuilder imageFinal = new StringBuilder();
         for (int y = 0; y < bwRaster.getHeight(); y++) {
             for (int x = 0; x < bwRaster.getWidth(); x++) {
                 int color = bwRaster.getPixel(x, y, new int[3])[0];
                 char c = schema.convert(color);
-                oneString[x] = c;
-                doubleString += String.valueOf(oneString[x]) + oneString[x];
+                imageFinal.append(c).append(c);
             }
-            imageFinal += doubleString + "\n";
-            doubleString = "";
-            //imageFinal += new String(oneString) + "\n";
+            imageFinal.append("\n");
         }
-        return imageFinal;
+        return imageFinal.toString();
     }
 
     @Override
@@ -95,6 +89,7 @@ public class ImageToTextConv implements TextGraphicsConverter {
 
     @Override
     public void setTextColorSchema(TextColorSchema schema) {
+        this.schema = schema;
 
     }
 
